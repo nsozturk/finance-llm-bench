@@ -291,6 +291,8 @@ TASK_META = [  # key, etiket, blok, açıklama, ölçü
     ("finreason", "FinReason", "numeric", "FinanceReasoning zor seviye: çok adımlı hesap", "sayısal, %1 tolerans"),
 ]
 
+TASK_EN = {"Financial PhraseBank: haber cümlelerinde duygu": "Financial PhraseBank: sentiment in news sentences", "FiQA: hedef şirkete göre mikroblog/başlık duygusu": "FiQA: microblog/headline sentiment by target company", "Twitter finans haberleri: bullish / bearish / nötr": "Twitter financial news: bullish / bearish / neutral", "Şirket raporu tablosu + metinden sayısal soru": "Numerical question from company report table + text", "Çok turlu sohbette zincirleme sayısal soru": "Chained numerical question in multi-turn chat", "Tablo + metin karma soru (sayı veya metin)": "Mixed table + text question (number or text)", "FinanceReasoning zor seviye: çok adımlı hesap": "FinanceReasoning hard level: multi-step calculation", "doğruluk": "accuracy", "sayısal, %1 tolerans": "numeric, 1% tolerance", "sayısal / token F1": "numeric / token F1"}   # ortak translate motoruyla çevrildi (2026-09-30)
+
 def write_html(df, ms):
     """results/leaderboard.html: şablona güncel veriyi gömer (yeni biten modeller otomatik eklenir)."""
     tpl = f"{ROOT}/leaderboard_template.html"
@@ -310,20 +312,21 @@ def write_html(df, ms):
         rows.append(row)
     done = {r["model"] for r in rows}
     slow = lambda i: os.path.exists(f"{RAW}/{i}/SLOW")
-    pending = [m["id"] + (" · yavaş, atlandı" if slow(m["id"]) else "") for m in ms if m["id"] not in done]
+    pending = [{"id": m["id"], "slow": slow(m["id"])} for m in ms if m["id"] not in done]
     try:
         from cli_bench import MODELS as CLI
-        pending += [k for k in CLI if k not in done and k not in pending]
+        pending += [{"id": k, "slow": False} for k in CLI if k not in done and k not in {p["id"] for p in pending}]
     except Exception: pass
     data = {"generated": time.strftime("%Y-%m-%d %H:%M"), "rows": rows, "pending": pending,
-            "tasks": [{"key": k, "label": l, "block": b, "desc": d, "metric": me, "n": N[k]} for k, l, b, d, me in TASK_META]}
+            "tasks": [{"key": k, "label": l, "block": b, "desc": d, "metric": me, "desc_en": TASK_EN.get(d, d),
+                       "metric_en": TASK_EN.get(me, me), "n": N[k]} for k, l, b, d, me in TASK_META]}
     html = open(tpl, encoding="utf-8").read().replace('/*__DATA__*/{"generated":"","tasks":[],"rows":[],"pending":[]}',
                                                      json.dumps(data, ensure_ascii=False))
     with open(f"{ROOT}/results/leaderboard.html.tmp", "w", encoding="utf-8") as f: f.write(html)
     os.replace(f"{ROOT}/results/leaderboard.html.tmp", f"{ROOT}/results/leaderboard.html")
     # GitHub Pages: aynı sayfa, tam HTML iskeletiyle
     os.makedirs(f"{ROOT}/docs", exist_ok=True)
-    page = ('<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n'
+    page = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             '<style>html{color-scheme:light dark}body{margin:0}[hidden]{display:none!important}</style>\n</head>\n<body>\n'
             + html + '\n</body>\n</html>\n')

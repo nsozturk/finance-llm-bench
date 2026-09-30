@@ -1,4 +1,4 @@
-<title>Finans LLM Sıralaması</title>
+<title>Finance LLM Leaderboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -27,7 +27,9 @@
 * { box-sizing: border-box }
 body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body) }
 .wrap { max-width: 1280px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 28px }
-header { display: grid; gap: 6px }
+header { display: grid; gap: 6px; position: relative }
+#lang { position: absolute; top: 0; right: 0 }
+header h1, header .eyebrow { padding-right: 96px }
 .eyebrow { font: 500 12px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
 h1 { font: 800 clamp(28px, 4vw, 44px)/1.05 var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -.01em }
 .lede { color: var(--muted); max-width: 70ch; margin: 0 }
@@ -82,46 +84,40 @@ footer { font: 12px var(--f-mono); color: var(--muted) }
 <div class="wrap">
   <header>
     <div class="eyebrow" id="stamp"></div>
-    <h1>Finans LLM Sıralaması</h1>
-    <p class="lede">Finansa özel modeller, genel açık modeller ve frontier modeller aynı 7 finans görevinde. Puan = doğruluk (0–100). Duygu analizi ve sayısal muhakeme bloklarının ortalaması genel puanı verir. Yerel modeller 64 GB M1 Max üzerinde, 4-bit.</p>
+    <button class="chip" id="lang" type="button"></button>
+    <h1 data-i18n="title"></h1>
+    <p class="lede" data-i18n="lede"></p>
   </header>
 
   <div class="summary" id="summary"></div>
 
-  <div class="bar" role="group" aria-label="Filtre">
-    <button class="chip" data-g="all" aria-pressed="true">Tümü</button>
+  <div class="bar" role="group" data-i18n-aria="filter">
+    <button class="chip" data-g="all" aria-pressed="true" data-i18n="all"></button>
     <button class="chip" data-g="frontier-cli" aria-pressed="false">Frontier (CLI)</button>
-    <button class="chip" data-g="openrouter-free" aria-pressed="false">OpenRouter ücretsiz</button>
-    <button class="chip" data-g="openrouter-paid" aria-pressed="false">OpenRouter ücretli</button>
-    <button class="chip" data-g="baseline" aria-pressed="false">Genel açık</button>
-    <button class="chip" data-g="uncensored" aria-pressed="false">Sansürsüz</button>
-    <button class="chip" data-g="finance" aria-pressed="false">Finans ince ayarlı</button>
-    <input id="q" type="search" placeholder="Model ara…" aria-label="Model ara">
+    <button class="chip" data-g="openrouter-free" aria-pressed="false" data-i18n="orfree"></button>
+    <button class="chip" data-g="openrouter-paid" aria-pressed="false" data-i18n="orpaid"></button>
+    <button class="chip" data-g="baseline" aria-pressed="false" data-i18n="base"></button>
+    <button class="chip" data-g="uncensored" aria-pressed="false" data-i18n="unc"></button>
+    <button class="chip" data-g="finance" aria-pressed="false" data-i18n="fin"></button>
+    <input id="q" type="search" data-i18n-ph="search">
     <span class="count" id="count"></span>
   </div>
 
   <div class="tablebox"><table id="t"><thead></thead><tbody></tbody></table></div>
 
   <section id="pendingbox">
-    <h2>Sırada</h2>
+    <h2 data-i18n="queued"></h2>
     <div class="pending" id="pending"></div>
   </section>
 
   <section class="notes">
     <div>
-      <h2>Görevler</h2>
-      <div class="tablebox"><table class="tasks" id="tasks"><thead><tr><th>Görev</th><th>Blok</th><th>Soru</th><th>Ölçü</th></tr></thead><tbody></tbody></table></div>
+      <h2 data-i18n="tasks"></h2>
+      <div class="tablebox"><table class="tasks" id="tasks"><thead><tr><th data-i18n="task"></th><th data-i18n="block"></th><th data-i18n="qs"></th><th data-i18n="metric"></th></tr></thead><tbody></tbody></table></div>
     </div>
     <div>
-      <h2>Yöntem</h2>
-      <ul>
-        <li>Hakem model yok: cevaplar kural tabanlı puanlanır. Sayısal cevaplarda %1 tolerans; yüzde ile ondalık yazım (14,5 ↔ 0,145) eşdeğer sayılır. TAT-QA metin cevaplarında token F1.</li>
-        <li>Sıcaklık 0, sabit örneklem (seed 1234). Düşünme modu kapatılabilen modellerde kapalı; düşünen modellere 1024 token düşünme bütçesi.</li>
-        <li>Yerel modeller llama.cpp (GGUF) ya da mlx-lm (MLX) sunucusunda tek tek soruldu.</li>
-        <li>Frontier ve OpenRouter ücretsiz modeller CLI'lar (codex, opencode, agy, muse) üzerinden, paketler halinde soruldu (duygu 80, sayısal 10 soru/çağrı) ve araç kullanımı yalnız prompt ile yasaklandı. Bu satırlar yerel modellerle birebir aynı koşulda değildir.</li>
-        <li>Görev başına 50–235 soru var; 2–3 puanlık farklar anlamlı olmayabilir.</li>
-        <li><span class="warn">Kesilme %</span> yüksekse model token sınırına takılmıştır; puan düşük kalabilir.</li>
-      </ul>
+      <h2 data-i18n="method"></h2>
+      <ul><li data-i18n="m1"></li><li data-i18n="m2"></li><li data-i18n="m3"></li><li data-i18n="m4"></li><li data-i18n="m5"></li><li data-i18n="m6"></li></ul>
     </div>
   </section>
 
@@ -130,10 +126,12 @@ footer { font: 12px var(--f-mono); color: var(--muted) }
 
 <script>
 const DATA = /*__DATA__*/{"generated":"","tasks":[],"rows":[],"pending":[]};
-const GL = {"frontier-cli": "frontier", "openrouter-free": "openrouter ücretsiz", "openrouter-paid": "openrouter", "uncensored": "sansürsüz", "baseline": "genel", "finance": "finans"};
-const state = { g: "all", q: "", sort: "overall", dir: -1 };
+const I18N = {"tr": {"title": "Finans LLM Sıralaması", "lede": "Finansa özel modeller, genel açık modeller ve frontier modeller aynı 7 finans görevinde. Puan = doğruluk (0–100). Duygu analizi ve sayısal muhakeme bloklarının ortalaması genel puanı verir. Yerel modeller 64 GB M1 Max üzerinde, 4-bit.", "all": "Tümü", "orfree": "OpenRouter ücretsiz", "orpaid": "OpenRouter ücretli", "base": "Genel açık", "unc": "Sansürsüz", "fin": "Finans ince ayarlı", "search": "Model ara…", "queued": "Sırada", "tasks": "Görevler", "task": "Görev", "block": "Blok", "qs": "Soru", "metric": "Ölçü", "method": "Yöntem", "m1": "Hakem model yok: cevaplar kural tabanlı puanlanır. Sayısal cevaplarda %1 tolerans; yüzde ile ondalık yazım (14,5 ↔ 0,145) eşdeğer sayılır. TAT-QA metin cevaplarında token F1.", "m2": "Sıcaklık 0, sabit örneklem (seed 1234). Düşünme modu kapatılabilen modellerde kapalı; düşünen modellere 1024 token düşünme bütçesi.", "m3": "Yerel modeller llama.cpp (GGUF) ya da mlx-lm (MLX) sunucusunda tek tek soruldu.", "m4": "Frontier ve OpenRouter modelleri CLI'lar (codex, opencode, agy, muse) üzerinden, paketler halinde soruldu (duygu 80, sayısal 10 soru/çağrı) ve araç kullanımı yalnız prompt ile yasaklandı. Bu satırlar yerel modellerle birebir aynı koşulda değildir.", "m5": "Görev başına 50–235 soru var; 2–3 puanlık farklar anlamlı olmayabilir.", "m6": "Kesilme % yüksekse model token sınırına takılmıştır; puan düşük kalabilir.", "overall": "Genel", "sent": "Duygu", "num": "Sayısal", "avg": "ort.", "trunc": "Kesilme %", "bestF": "En iyi frontier", "bestL": "En iyi yerel", "bestFin": "En iyi finans ince ayarlı", "done": "Tamamlanan", "mq": "model sırada", "none": "henüz yok", "g_base": "genel", "g_fin": "finans", "g_unc": "sansürsüz", "inc": "eksik", "upd": "Güncellendi", "qpm": "soru/model", "foot": "Kaynak: finance-llm-bench · bench.py report ile yeniden üretilir", "slow": "yavaş, atlandı", "filter": "Filtre", "g_orfree": "openrouter ücretsiz", "g_or": "openrouter", "g_front": "frontier", "models": "model", "lang": "English"}, "en": {"title": "Finance LLM Leaderboard", "lede": "Finance-specific models, general open models, and frontier models on the same 7 finance tasks. Score = accuracy (0–100). The average of sentiment analysis and numerical reasoning blocks gives the overall score. Local models on 64 GB M1 Max, 4-bit.", "all": "All", "orfree": "OpenRouter free", "orpaid": "OpenRouter paid", "base": "General open", "unc": "Uncensored", "fin": "Finance fine-tuned", "search": "Search models…", "queued": "Queued", "tasks": "Tasks", "task": "Task", "block": "Block", "qs": "Questions", "metric": "Metric", "method": "Method", "m1": "No judge model: answers are scored rule-based. 1% tolerance for numerical answers; percentage and decimal notations (14.5 ↔ 0.145) are considered equivalent. Token F1 for TAT-QA text answers.", "m2": "Temperature 0, fixed seed (seed 1234). Thinking mode turned off for models where it can be disabled; 1024 token thinking budget for thinking models.", "m3": "Local models were queried one by one on llama.cpp (GGUF) or mlx-lm (MLX) server.", "m4": "Frontier and OpenRouter models were queried in batches via CLIs (codex, opencode, agy, muse) (sentiment 80, numerical 10 questions/call) and tool use was prohibited by prompt alone. These rows are not under the exact same conditions as local models.", "m5": "There are 50–235 questions per task; 2–3 point differences may not be significant.", "m6": "If truncation % is high, the model hit the token limit; the score may remain low.", "overall": "Overall", "sent": "Sentiment", "num": "Numeric", "avg": "avg.", "trunc": "Truncation %", "bestF": "Best frontier", "bestL": "Best local", "bestFin": "Best finance fine-tuned", "done": "Completed", "mq": "models queued", "none": "none yet", "g_base": "general", "g_fin": "finance", "g_unc": "uncensored", "inc": "incomplete", "upd": "Updated", "qpm": "questions/model", "foot": "Source: finance-llm-bench · reproducible with bench.py report", "slow": "slow, skipped", "filter": "Filter", "g_orfree": "openrouter free", "g_or": "openrouter", "g_front": "frontier", "models": "models", "lang": "Türkçe"}};
+const state = { g: "all", q: "", sort: "overall", dir: -1, lang: "en" };
+const t = k => (I18N[state.lang] || I18N.en)[k] ?? k;
+const GL = () => ({"frontier-cli": t("g_front"), "openrouter-free": t("g_orfree"), "openrouter-paid": t("g_or"), "uncensored": t("g_unc"), "baseline": t("g_base"), "finance": t("g_fin")});
 try { const s = JSON.parse(localStorage.getItem("finlb") || "{}"); Object.assign(state, s); } catch (e) {}
-const save = () => { try { localStorage.setItem("finlb", JSON.stringify({ g: state.g, sort: state.sort, dir: state.dir })) } catch (e) {} };
+const save = () => { try { localStorage.setItem("finlb", JSON.stringify({ g: state.g, sort: state.sort, dir: state.dir, lang: state.lang })) } catch (e) {} };
 const fmt = v => v == null || Number.isNaN(v) ? "–" : v.toFixed(1);
 function heat(v) {
   if (v == null) return "";
@@ -141,19 +139,19 @@ function heat(v) {
   const [a, b, p] = t < .5 ? ["--heat-lo", "--heat-mid", t * 2] : ["--heat-mid", "--heat-hi", (t - .5) * 2];
   return `background: color-mix(in srgb, var(${b}) ${Math.round(p * 100)}%, var(${a}))`;
 }
-const cols = [
+const cols = () => [
   { k: "rank", l: "#", cls: "rank", nosort: true },
   { k: "model", l: "Model", cls: "l model" },
-  { k: "overall", l: "Genel" },
-  { k: "sentiment", l: "Duygu", blk: "ort." , sep: true },
+  { k: "overall", l: t("overall") },
+  { k: "sentiment", l: t("sent"), blk: t("avg"), sep: true },
   ...DATA.tasks.filter(t => t.block === "sentiment").map(t => ({ k: t.key, l: t.label, heat: true })),
-  { k: "numeric", l: "Sayısal", blk: "ort.", sep: true },
+  { k: "numeric", l: t("num"), blk: t("avg"), sep: true },
   ...DATA.tasks.filter(t => t.block === "numeric").map(t => ({ k: t.key, l: t.label, heat: true })),
   { k: "tok_s", l: "tok/s", sep: true },
-  { k: "trunc", l: "Kesilme %" },
+  { k: "trunc", l: t("trunc") },
 ];
 function head() {
-  document.querySelector("#t thead").innerHTML = "<tr>" + cols.map(c =>
+  document.querySelector("#t thead").innerHTML = "<tr>" + cols().map(c =>
     `<th class="${c.cls && c.cls.includes("l") ? "l" : ""} ${state.sort === c.k ? "sorted" : ""} ${c.sep ? "sep" : ""}">${c.nosort ? c.l :
       `<button data-k="${c.k}">${c.l}${state.sort === c.k ? (state.dir < 0 ? " ↓" : " ↑") : ""}</button>`}${c.blk ? `<span class="blk">${c.blk}</span>` : ""}</th>`).join("") + "</tr>";
   document.querySelectorAll("#t thead button").forEach(b => b.onclick = () => {
@@ -168,35 +166,47 @@ function render() {
     if (typeof x === "string") return state.dir * x.localeCompare(y);
     return state.dir * ((x ?? -1) - (y ?? -1));
   });
-  document.querySelector("#t tbody").innerHTML = rows.map((r, i) => "<tr>" + cols.map(c => {
+  const C = cols(), G = GL();
+  document.querySelector("#t tbody").innerHTML = rows.map((r, i) => "<tr>" + C.map(c => {
     if (c.k === "rank") return `<td class="rank">${i + 1}</td>`;
-    if (c.k === "model") return `<td class="l model"><div class="mname">${r.model}</div><div class="meta"><span class="tag ${r.group}">${GL[r.group] || r.group}</span><span>${r.quant || ""}</span>${r.gb ? `<span>${r.gb} GB</span>` : ""}${r.complete ? "" : '<span class="warn">eksik</span>'}</div></td>`;
+    if (c.k === "model") return `<td class="l model"><div class="mname">${r.model}</div><div class="meta"><span class="tag ${r.group}">${G[r.group] || r.group}</span><span>${r.quant || ""}</span>${r.gb ? `<span>${r.gb} GB</span>` : ""}${r.complete ? "" : '<span class="warn">' + t("inc") + '</span>'}</div></td>`;
     if (c.k === "overall") return `<td><div class="ov"><b>${fmt(r.overall)}</b><span class="meter"><i style="width:${r.overall || 0}%"></i></span></div></td>`;
     if (c.k === "tok_s") return `<td class="sep dim">${r.tok_s == null ? "–" : r.tok_s.toFixed(0)}</td>`;
     if (c.k === "trunc") return `<td class="${r.trunc >= 10 ? "warn" : "dim"}">${r.trunc == null ? "–" : r.trunc.toFixed(0)}</td>`;
     const v = r[c.k];
     return `<td class="${c.heat ? "h" : ""} ${c.sep ? "sep" : ""}" ${c.heat ? `style="${heat(v)}"` : ""} title="${c.heat && r[c.k + "_n"] ? "n=" + r[c.k + "_n"] : ""}">${c.heat ? fmt(v) : `<b>${fmt(v)}</b>`}</td>`;
   }).join("") + "</tr>").join("");
-  document.getElementById("count").textContent = `${rows.length} model`;
+  document.getElementById("count").textContent = `${rows.length} ${t("models")}`;
   document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.g === state.g)));
 }
 function summary() {
   const best = g => DATA.rows.filter(r => r.group === g && r.overall != null).sort((a, b) => b.overall - a.overall)[0];
   const local = DATA.rows.filter(r => (r.group === "baseline" || r.group === "finance" || r.group === "uncensored") && r.overall != null).sort((a, b) => b.overall - a.overall)[0];
   const cards = [
-    ["En iyi frontier", best("frontier-cli")], ["En iyi yerel", local], ["En iyi finans ince ayarlı", best("finance")],
+    [t("bestF"), best("frontier-cli")], [t("bestL"), local], [t("bestFin"), best("finance")],
   ];
   const done = DATA.rows.filter(r => r.complete).length;
   document.getElementById("summary").innerHTML = cards.map(([k, r]) => `<div class="card"><span class="k">${k}</span>${r ?
-    `<span class="v">${fmt(r.overall)}</span><span class="n">${r.model}</span>` : '<span class="n dim">henüz yok</span>'}</div>`).join("") +
-    `<div class="card"><span class="k">Tamamlanan</span><span class="v">${done}</span><span class="n dim">${DATA.pending.length} model sırada</span></div>`;
+    `<span class="v">${fmt(r.overall)}</span><span class="n">${r.model}</span>` : `<span class="n dim">${t("none")}</span>`}</div>`).join("") +
+    `<div class="card"><span class="k">${t("done")}</span><span class="v">${done}</span><span class="n dim">${DATA.pending.length} ${t("mq")}</span></div>`;
 }
-document.querySelectorAll(".chip").forEach(b => b.onclick = () => { state.g = b.dataset.g; save(); render(); });
+document.querySelectorAll(".chip[data-g]").forEach(b => b.onclick = () => { state.g = b.dataset.g; save(); render(); });
 document.getElementById("q").oninput = e => { state.q = e.target.value; render(); };
-document.getElementById("stamp").textContent = `Güncellendi ${DATA.generated} · Tier-1 · 835 soru/model`;
-document.querySelector("#tasks tbody").innerHTML = DATA.tasks.map(t => `<tr><td><b>${t.label}</b><br><span class="dim">${t.desc}</span></td><td>${t.block === "sentiment" ? "Duygu" : "Sayısal"}</td><td>${t.n}</td><td>${t.metric}</td></tr>`).join("");
-document.getElementById("pending").innerHTML = DATA.pending.map(p => `<span>${p}</span>`).join("");
+document.getElementById("lang").onclick = () => { state.lang = state.lang === "en" ? "tr" : "en"; save(); applyLang(); };
+function applyLang() {
+  document.documentElement.lang = state.lang;
+  document.title = t("title");
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = t(el.dataset.i18nPh); el.setAttribute("aria-label", t(el.dataset.i18nPh)); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
+  document.getElementById("lang").textContent = t("lang");
+  document.getElementById("stamp").textContent = `${t("upd")} ${DATA.generated} · Tier-1 · 835 ${t("qpm")}`;
+  const L = state.lang === "tr" ? "" : "_en";
+  document.querySelector("#tasks tbody").innerHTML = DATA.tasks.map(x => `<tr><td><b>${x.label}</b><br><span class="dim">${x["desc" + L] || x.desc}</span></td><td>${x.block === "sentiment" ? t("sent") : t("num")}</td><td>${x.n}</td><td>${x["metric" + L] || x.metric}</td></tr>`).join("");
+  document.getElementById("pending").innerHTML = DATA.pending.map(p => `<span>${typeof p === "string" ? p : p.id + (p.slow ? " · " + t("slow") : "")}</span>`).join("");
+  document.getElementById("foot").textContent = t("foot");
+  summary(); render();
+}
 document.getElementById("pendingbox").hidden = !DATA.pending.length;
-document.getElementById("foot").textContent = "Kaynak: finance-llm-bench · bench.py report ile yeniden üretilir";
-summary(); render();
+applyLang();
 </script>

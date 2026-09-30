@@ -14,7 +14,7 @@ A judge-free benchmark of **finance-tuned LLMs, open general models and frontier
 Overall = mean of the sentiment block and the numeric block (0–100, higher is better). `tok/s` is single-stream generation speed on the M1 Max (local models only).
 
 <!-- LEADERBOARD:START -->
-_Updated 2026-09-30 23:18 · 58 models complete · 835 questions per model_
+_Updated 2026-09-30 23:25 · 58 models complete · 835 questions per model_
 
 | # | Model | Group | Quant | Overall | Sentiment | Numeric | FPB | FiQA-SA | TFNS | FinQA | ConvFinQA | TAT-QA | FinReason | tok/s |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
