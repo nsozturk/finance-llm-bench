@@ -1,0 +1,67 @@
+id	group	src	fmt	quant	gb	est_tps	think	path
+google_gemma-4-31B-it	baseline	hdd	gguf	Q4_K_M	19.6	12	0	/Volumes/ns-5tb/AI-Models/Google/normal/google_gemma-4-31B-it-GGUF/google_gemma-4-31B-it-Q4_K_M.gguf
+Qwen3.8-27B-Heretic-Abliterated-Uncensored	uncensored	hdd	gguf	Q4_K_M	16.5	15	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/abliterated/Qwen3.8-27B-Heretic-Abliterated-Uncensored-GGUF/Qwen3.8-27B-Heretic-Q4_K_M.gguf
+Qwen3.8-27B-Fable-Distill-Heretic-ara	uncensored	hdd	gguf	Q4_K_S	16.4	15	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/abliterated/Qwen3.8-27B-Fable-Distill-Heretic-ara-GGUF/Qwen3.8-27B-Fable-Distill-Heretic-ara-Q4_K_S.gguf
+Huihui-Qwen3.8-27B-abliterated-GGUF	uncensored	hdd	gguf	IQ3_S	12.1	20	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/abliterated/Huihui-Qwen3.8-27B-abliterated-GGUF__ns-1tb-ekranlı/Huihui-Qwen3.8-27B-abliterated-GSQ-RCO-IQ3_S-mtp.gguf
+Qwen3.8-27B-ABLITERATED	uncensored	hdd	gguf	Q8_0	28.6	8	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/abliterated/Qwen3.8-27B-ABLITERATED-GGUF/Qwen3.8-27B-ABLITERATED-Q8_0.gguf
+Qwen3.8-27B-Uncensored	uncensored	hdd	gguf	Q8_0	29.0	8	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/abliterated/Qwen3.8-27B-Uncensored-GGUF/Qwen3.8-27B-Uncensored-Q8_0.gguf
+tanpo-finance	finance	mac	gguf	Q4_K_M	0.7	328	0	/Users/ns0bj/.lmstudio/models/d4rkninja/tanpo-finance-GGUF/tanpo-finance.Q4_K_M.gguf
+bitcoin-news-1.7b	finance	mac	gguf	Q4_K_S	1.0	245	0	/Users/ns0bj/.lmstudio/models/shreyanshp/bitcoin-news-1.7b/bitcoin-news-1.7b-Q4_K_S.gguf
+finanalyzer-indian-bank-statements	finance	mac	gguf	Q4_K_M	1.3	187	0	/Users/ns0bj/.lmstudio/models/ganmoor-ai-labs/finanalyzer-indian-bank-statements/finanalyzer-1.7b-q4_k_m.gguf
+LFM2.5-2.6B-Finance	finance	mac	gguf	Q4_K_M	1.7	143	0	/Users/ns0bj/.lmstudio/models/mradermacher/LFM2.5-2.6B-Finance-GGUF/LFM2.5-2.6B-Finance.Q4_K_M.gguf
+Qwen3.5-35B-A3B-4bit	baseline	hdd	mlx	4bit	20.4	137	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/normal/Qwen3.5-35B-A3B-4bit
+Mihenk-LLM-v2-35B-A3B-Turkish-Financial-Model	finance	hdd	gguf	Q4_K_M	21.2	132	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Mihenk-LLM-v2-35B-A3B-Turkish-Financial-Model-GGUF/Mihenk-LLM-v2-35B-A3B-Q4_K_M.gguf
+Qwen3-30B-A3B-Finance	finance	hdd	gguf	Q4_K_M	18.6	129	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Qwen3-30B-A3B-Finance/gguf/qwen3-30b-finance-q4_k_m.gguf
+Qwen_Qwen3.6-35B-A3B	baseline	hdd	gguf	Q4_K_M	22.3	126	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/normal/Qwen_Qwen3.6-35B-A3B-GGUF/Qwen_Qwen3.6-35B-A3B-Q4_K_M.gguf
+gpt-oss-20b	baseline	hdd	gguf	MXFP4	12.1	116	0	/Volumes/ns-5tb/AI-Models/OpenAI/normal/gpt-oss-20b-GGUF/gpt-oss-20b-MXFP4.gguf
+GLM-4.7-Flash-MLX-6bit	baseline	hdd	mlx	6bit	24.3	99	0	/Volumes/ns-5tb/AI-Models/Zhipu AI/normal/GLM-4.7-Flash-MLX-6bit
+Blum-Finance-4B	finance	mac	gguf	Q4_K_M	2.5	96	0	/Users/ns0bj/.lmstudio/models/mradermacher/Blum-Finance-4B-GGUF/Blum-Finance-4B.Q4_K_M.gguf
+gemma-4-26B-A4B-it	baseline	hdd	gguf	Q4_K_M	16.9	92	0	/Volumes/ns-5tb/AI-Models/Google/normal/gemma-4-26B-A4B-it-GGUF/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf
+gpt-oss-20b-finance	finance	mac	gguf	Q4_K_M	15.8	89	0	/Users/ns0bj/.lmstudio/models/ctgt-inc/gpt-oss-20b-finance-GGUF/gpt-oss-20b-finance.Q4_K_M.gguf
+Qwen3.5-4B-Financial-SQL	finance	mac	gguf	Q4_K_M	2.8	86	0	/Users/ns0bj/.lmstudio/models/giangkh19/Qwen3.5-4B-Financial-SQL-GGUF/Qwen3.5-4B.Q4_K_M.gguf
+finance-gemma4-e2b	finance	hdd	gguf	Q4_K_M	3.4	70	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/finance-gemma4-e2b-GGUF/finance-gemma4-e2b.Q4_K_M.gguf
+google_gemma-4-E2B-it	baseline	hdd	gguf	Q4_K_M	3.5	69	0	/Volumes/ns-5tb/AI-Models/Google/normal/google_gemma-4-E2B-it-GGUF/google_gemma-4-E2B-it-Q4_K_M.gguf
+finma-7b-full	finance	mac	gguf	Q4_K_M	4.1	59	0	/Users/ns0bj/.lmstudio/models/TheFinAI/finma-7b-full-GGUF/finma-7b-full.Q4_K_M.gguf
+finance-LLM	finance	mac	gguf	Q4_K_M	4.1	59	0	/Users/ns0bj/.lmstudio/models/TheBloke/finance-LLM-GGUF/finance-llm.Q4_K_M.gguf
+finance-chat	finance	mac	gguf	Q4_K_M	4.1	59	0	/Users/ns0bj/.lmstudio/models/TheBloke/finance-chat-GGUF/finance-chat.Q4_K_M.gguf
+BIST-Financial-Qwen-7B	finance	mac	gguf	Q4_K_M	4.7	51	0	/Users/ns0bj/.lmstudio/models/finansai/BIST-Financial-Qwen-7B/gguf/qwen-kap-final-Q4_K_M.gguf
+Llama-Open-Finance-8B-Q4_K_M	finance	hdd	gguf	Q4_K_M	4.9	49	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Llama-Open-Finance-8B-Q4_K_M-GGUF/llama-open-finance-8b-q4_k_m.gguf
+finance-Llama3-8B	finance	hdd	gguf	Q4_K_M	4.9	49	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/finance-Llama3-8B-GGUF/finance-Llama3-8B.Q4_K_M.gguf
+BIST-LLM-8B-Turkish-Finance	finance	hdd	gguf	Q4_K_M	4.9	49	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/BIST-LLM-8B-Turkish-Finance/BIST-Expert-Q4_K_M.gguf
+Llama-3.1-8B-Instruct	baseline	hdd	gguf	Q4_K_M	4.9	49	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Llama-3.1-8B-Instruct-GGUF/Llama-3.1-8B-Instruct-Q4_K_M.gguf
+SwayAlgo-Finance-gemma-4-E4B-it-1	finance	hdd	gguf	Q4_K_M	5.0	48	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/SwayAlgo-Finance-gemma-4-E4B-it-1-GGUF/Swayalgo-Finance-gemma-4-E4B-it-1-q4_k_m.gguf
+ODA-Fin-SFT-8B	finance	hdd	gguf	Q4_K_M	5.0	48	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/ODA-Fin-SFT-8B-GGUF/ODA-Fin-SFT-8B.Q4_K_M.gguf
+gemma-4-E4B-medical-legal-finance-qa	finance	mac	gguf	Q4_K_M	5.3	45	0	/Users/ns0bj/.lmstudio/models/rajveer43/gemma-4-E4B-medical-legal-finance-qa/gemma-4-E4B-it.Q4_K_M.gguf
+TraceAlchemy-Gemma-4-E4B-Finance-IT	finance	hdd	gguf	Q4_K_M	5.3	45	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/TraceAlchemy-Gemma-4-E4B-Finance-IT-gguf/gemma-4-E4B-it.Q4_K_M.gguf
+FinanceGemma-E4B	finance	hdd	gguf	Q4_K_M	5.3	45	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/FinanceGemma-E4B-GGUF/FinanceGemma-E4B.Q4_K_M.gguf
+google_gemma-4-E4B-it	baseline	hdd	gguf	Q4_K_M	5.4	44	0	/Volumes/ns-5tb/AI-Models/Google/normal/google_gemma-4-E4B-it-GGUF/google_gemma-4-E4B-it-Q4_K_M.gguf
+FinSenti-Qwen3.5-9B	finance	mac	gguf	Q4_K_M	5.6	43	0	/Users/ns0bj/.lmstudio/models/mradermacher/FinSenti-Qwen3.5-9B-GGUF/FinSenti-Qwen3.5-9B.Q4_K_M.gguf
+rLLM-FinQA-4B-MLX-4bit	finance	hdd	mlx	4bit	2.3	106	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/rLLM-FinQA-4B-MLX-4bit
+Phinance-Phi-4-mini-instruct-finance-v0.4-with-reasoning	finance	mac	gguf	Q4_K_M	2.5	96	1	/Users/ns0bj/.lmstudio/models/Josephgflowers/Phinance-Phi-4-mini-instruct-finance-v0.4-with-reasoning-gguf/Josephgflowers--Phinance-Phi-4-mini-instruct-finance-v0.4-with-reasoning-q4_K_M.gguf
+NVIDIA-Nemotron-Nano-12B-v2.Q4_K_M	baseline	hdd	gguf	Q4_K_M	7.5	32	0	/Volumes/ns-5tb/AI-Models/NVIDIA/normal/NVIDIA-Nemotron-Nano-12B-v2.Q4_K_M.gguf
+finance-LLM-13B	finance	mac	gguf	Q4_K_M	7.9	31	0	/Users/ns0bj/.lmstudio/models/TheBloke/finance-LLM-13B-GGUF/finance-llm-13b.Q4_K_M.gguf
+Qwen3.5-4B	baseline	hdd	mlx	bf16bit	9.3	26	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/normal/Qwen3.5-4B
+Olmo-3-7B-Think.i1-Q4_K_M	baseline	hdd	gguf	Q4_K_M	4.5	54	1	/Volumes/ns-5tb/AI-Models/Allen AI/normal/Olmo-3-7B-Think.i1-Q4_K_M.gguf
+Fin-R1	finance	mac	gguf	Q4_K_M	4.7	51	1	/Users/ns0bj/.lmstudio/models/mradermacher/Fin-R1-GGUF/Fin-R1.Q4_K_M.gguf
+DianJin-R1-7B	finance	mac	gguf	Q4_K_M	4.7	51	1	/Users/ns0bj/.lmstudio/models/mradermacher/DianJin-R1-7B-GGUF/DianJin-R1-7B.Q4_K_M.gguf
+Qwen-Open-Finance-R-8B-IQ4_NL	finance	hdd	gguf	IQ4_NL	4.8	50	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Qwen-Open-Finance-R-8B-IQ4_NL-GGUF/qwen-open-finance-r-8b-iq4_nl-imat.gguf
+Fino1-8B	finance	mac	gguf	Q4_K_M	4.9	49	1	/Users/ns0bj/.lmstudio/models/mradermacher/Fino1-8B-GGUF/Fino1-8B.Q4_K_M.gguf
+NousResearch.DeepHermes-Financial-Fundamentals-Prediction-Specialist-Atropos	finance	mac	gguf	Q4_K_M	4.9	49	1	/Users/ns0bj/.lmstudio/models/DevQuasar/NousResearch.DeepHermes-Financial-Fundamentals-Prediction-Specialist-Atropos-GGUF/NousResearch.DeepHermes-Financial-Fundamentals-Prediction-Specialist-Atropos.Q4_K_M.gguf
+FinR1-llama-8b-multi-language-thinking	finance	hdd	gguf	Q4_K_M	4.9	49	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/FinR1-llama-8b-multi-language-thinking-GGUF/FinR1-llama-8b-multi-language-thinking.Q4_K_M.gguf
+Fin-o1-8B	finance	hdd	gguf	Q4_K_M	5.0	48	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Fin-o1-8B-GGUF/Fin-o1-8B.Q4_K_M.gguf
+ODA-Fin-RL-8B	finance	mac	gguf	Q4_K_M	5.0	48	1	/Users/ns0bj/.lmstudio/models/alexsabaka/ODA-Fin-RL-8B-GGUF/ODA-Fin-RL-8B.Q4_K_M.gguf
+cpa-qwen3-8b-v0	finance	hdd	gguf	Q4_K_M	5.0	48	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/cpa-qwen3-8b-v0-GGUF/cpa-qwen3-8b-v0.Q4_K_M.gguf
+apertus-8b-financial-reasoner-v1	finance	hdd	gguf	Q4_K_M	5.1	47	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/apertus-8b-financial-reasoner-v1-GGUF/apertus-8b-financial-reasoner-v1.Q4_K_M.gguf
+Qwen3.5-27B-4bit	baseline	hdd	mlx	4bit	16.1	15	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/normal/Qwen3.5-27B-4bit
+Qwen3.8-27B-finance	finance	hdd	gguf	Q4_K_M	16.8	14	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Qwen3.8-27B-finance-GGUF/Qwen3.8-27B-finance.Q4_K_M.gguf
+Qwen3.8-27B-oQ4e-mtp	baseline	hdd	mlx	4bit	17.0	14	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/normal/Qwen3.8-27B-oQ4e-mtp
+Fastino-Nemotron-3.5-Lightning-Finance-MLX-4bit	finance	hdd	mlx	4bit	17.8	14	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Fastino-Nemotron-3.5-Lightning-Finance-MLX-4bit
+Qwen3.5-9B	baseline	hdd	mlx	bf16bit	19.3	12	0	/Volumes/ns-5tb/AI-Models/Alibaba Qwen/normal/Qwen3.5-9B
+finma-30b-nlp	finance	mac	gguf	Q4_K_M	19.6	12	0	/Users/ns0bj/.lmstudio/models/ChanceFocus/finma-30b-nlp-GGUF/finma-30b-nlp.Q4_K_M.gguf
+Qwen2.5-32B-Instruct	baseline	hdd	gguf	Q4_K_M	19.9	12	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Qwen2.5-32B-Instruct-GGUF/Qwen2.5-32B-Instruct-Q4_K_M.gguf
+deepmoney-34b-200k-base	finance	hdd	gguf	Q4_K_M	20.7	12	0	/Volumes/ns-5tb/AI-Models/Finance-LLMs/deepmoney-34b-200k-base-GGUF/deepmoney-34b-200k-base.Q4_K_M.gguf
+Fin-o1-14B	finance	mac	gguf	Q4_K_M	9.0	27	1	/Users/ns0bj/.lmstudio/models/mradermacher/Fin-o1-14B-GGUF/Fin-o1-14B.Q4_K_M.gguf
+Alpha-R1	finance	hdd	mlx	bf16bit	16.4	15	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Alpha-R1
+DianJin-R1-32B	finance	hdd	gguf	Q4_K_M	19.9	12	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/DianJin-R1-32B-GGUF/DianJin-R1-32B.Q4_K_M.gguf
+Qwen_QwQ-32B	baseline	hdd	gguf	Q4_K_M	19.9	12	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/Qwen_QwQ-32B-GGUF/Qwen_QwQ-32B-Q4_K_M.gguf
+TheFinAI__Fino1-14B	finance	hdd	mlx	bf16bit	29.5	8	1	/Volumes/ns-5tb/AI-Models/Finance-LLMs/TheFinAI__Fino1-14B

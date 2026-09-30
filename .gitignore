@@ -1,0 +1,9 @@
+data/
+stage/
+results/raw/
+results/raw_old/
+checkpoints/
+.roundtable/
+__pycache__/
+*.log
+*.tmp

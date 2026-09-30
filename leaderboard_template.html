@@ -1,0 +1,202 @@
+<title>Finans LLM Sıralaması</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: summary strip -> filter bar -> one scrollable ranking table (heat cells per task) -> method notes */
+:root {
+  --bg: #f3f5f7; --surface: #ffffff; --fg: #17212b; --muted: #5b6977; --line: #d9e0e6;
+  --accent: #0b5f7a; --accent-soft: #dcecf2;
+  --frontier: #6a3fb0; --baseline: #0b5f7a; --finance: #b45a12; --openrouter: #2f7d32; --uncensored: #a3264b;
+  --heat-lo: #f6e1dc; --heat-mid: #f4efd6; --heat-hi: #d9efe2; --heat-fg: #17212b;
+  --warn: #a4400b;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f151b; --surface: #16202a; --fg: #e3e9ef; --muted: #93a2b1; --line: #2a3744;
+  --accent: #5cb8d6; --accent-soft: #173745;
+  --frontier: #b394ee; --baseline: #5cb8d6; --finance: #eaa066; --openrouter: #7cc47f; --uncensored: #f0829f;
+  --heat-lo: #4a2a26; --heat-mid: #3d3a26; --heat-hi: #1f4231; --heat-fg: #e3e9ef; --warn: #f0925a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f151b; --surface: #16202a; --fg: #e3e9ef; --muted: #93a2b1; --line: #2a3744;
+  --accent: #5cb8d6; --accent-soft: #173745;
+  --frontier: #b394ee; --baseline: #5cb8d6; --finance: #eaa066; --openrouter: #7cc47f; --uncensored: #f0829f;
+  --heat-lo: #4a2a26; --heat-mid: #3d3a26; --heat-hi: #1f4231; --heat-fg: #e3e9ef; --warn: #f0925a; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body) }
+.wrap { max-width: 1280px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 28px }
+header { display: grid; gap: 6px }
+.eyebrow { font: 500 12px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+h1 { font: 800 clamp(28px, 4vw, 44px)/1.05 var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -.01em }
+.lede { color: var(--muted); max-width: 70ch; margin: 0 }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0 }
+.card .k { font: 500 12px var(--f-mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase }
+.card .v { font: 800 30px/1 var(--f-display); font-variant-numeric: tabular-nums }
+.card .n { font-weight: 600; overflow-wrap: anywhere }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.chip { font: 500 13px var(--f-body); border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 999px; padding: 6px 12px; cursor: pointer }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface) }
+.chip:focus-visible, input:focus-visible, th button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+#q { font: 14px var(--f-body); padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); min-width: 0; flex: 1 1 200px; max-width: 320px }
+.count { margin-left: auto; font: 13px var(--f-mono); color: var(--muted) }
+.tablebox { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px }
+table { border-collapse: collapse; width: 100%; min-width: 980px; font-variant-numeric: tabular-nums }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap }
+th { font: 500 12px var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; position: sticky; top: 0; background: var(--surface); z-index: 1 }
+th button { all: unset; cursor: pointer }
+th.sorted { color: var(--fg) }
+th .blk { display: block; font-size: 10px; opacity: .8 }
+td.l, th.l { text-align: left }
+td.rank { color: var(--muted); font: 13px var(--f-mono); width: 36px }
+td.model { max-width: 360px; white-space: normal; min-width: 240px }
+.mname { font-weight: 600; overflow-wrap: anywhere }
+.meta { font: 12px var(--f-mono); color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px }
+.tag { font: 600 11px var(--f-mono); padding: 1px 7px; border-radius: 4px; border: 1px solid currentColor; letter-spacing: .03em }
+.tag.frontier-cli { color: var(--frontier) } .tag.baseline { color: var(--baseline) } .tag.finance { color: var(--finance) } .tag.openrouter-free, .tag.openrouter-paid { color: var(--openrouter) } .tag.uncensored { color: var(--uncensored) }
+.ov { display: flex; align-items: center; gap: 8px; justify-content: flex-end }
+.ov b { font: 800 17px var(--f-display); min-width: 44px; text-align: right }
+.meter { width: 84px; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden }
+.meter i { display: block; height: 100%; background: var(--accent) }
+td.h { color: var(--heat-fg); font-family: var(--f-mono); font-size: 13px }
+td.sep { border-left: 1px solid var(--line) }
+.warn { color: var(--warn); font-weight: 600 }
+.dim { color: var(--muted) }
+tr:hover td { background: color-mix(in srgb, var(--accent-soft) 45%, transparent) }
+section h2 { font: 800 22px var(--f-display); margin: 0 0 10px }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px }
+.notes > div { min-width: 0 }
+.notes p, .notes li { color: var(--muted); max-width: 68ch }
+.notes ul { padding-left: 18px; margin: 0; display: grid; gap: 6px }
+.tasks td, .tasks th { text-align: left; white-space: normal }
+.tasks { min-width: 560px }
+.pending { display: flex; flex-wrap: wrap; gap: 6px }
+.pending span { font: 12px var(--f-mono); border: 1px dashed var(--line); border-radius: 6px; padding: 3px 8px; color: var(--muted) }
+footer { font: 12px var(--f-mono); color: var(--muted) }
+@media (max-width: 520px) { .wrap { padding-inline: 16px } .count { margin-left: 0; width: 100% } }
+@media (prefers-reduced-motion: no-preference) { .meter i { transition: width .4s ease } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="stamp"></div>
+    <h1>Finans LLM Sıralaması</h1>
+    <p class="lede">Finansa özel modeller, genel açık modeller ve frontier modeller aynı 7 finans görevinde. Puan = doğruluk (0–100). Duygu analizi ve sayısal muhakeme bloklarının ortalaması genel puanı verir. Yerel modeller 64 GB M1 Max üzerinde, 4-bit.</p>
+  </header>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="bar" role="group" aria-label="Filtre">
+    <button class="chip" data-g="all" aria-pressed="true">Tümü</button>
+    <button class="chip" data-g="frontier-cli" aria-pressed="false">Frontier (CLI)</button>
+    <button class="chip" data-g="openrouter-free" aria-pressed="false">OpenRouter ücretsiz</button>
+    <button class="chip" data-g="openrouter-paid" aria-pressed="false">OpenRouter ücretli</button>
+    <button class="chip" data-g="baseline" aria-pressed="false">Genel açık</button>
+    <button class="chip" data-g="uncensored" aria-pressed="false">Sansürsüz</button>
+    <button class="chip" data-g="finance" aria-pressed="false">Finans ince ayarlı</button>
+    <input id="q" type="search" placeholder="Model ara…" aria-label="Model ara">
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="tablebox"><table id="t"><thead></thead><tbody></tbody></table></div>
+
+  <section id="pendingbox">
+    <h2>Sırada</h2>
+    <div class="pending" id="pending"></div>
+  </section>
+
+  <section class="notes">
+    <div>
+      <h2>Görevler</h2>
+      <div class="tablebox"><table class="tasks" id="tasks"><thead><tr><th>Görev</th><th>Blok</th><th>Soru</th><th>Ölçü</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div>
+      <h2>Yöntem</h2>
+      <ul>
+        <li>Hakem model yok: cevaplar kural tabanlı puanlanır. Sayısal cevaplarda %1 tolerans; yüzde ile ondalık yazım (14,5 ↔ 0,145) eşdeğer sayılır. TAT-QA metin cevaplarında token F1.</li>
+        <li>Sıcaklık 0, sabit örneklem (seed 1234). Düşünme modu kapatılabilen modellerde kapalı; düşünen modellere 1024 token düşünme bütçesi.</li>
+        <li>Yerel modeller llama.cpp (GGUF) ya da mlx-lm (MLX) sunucusunda tek tek soruldu.</li>
+        <li>Frontier ve OpenRouter ücretsiz modeller CLI'lar (codex, opencode, agy, muse) üzerinden, paketler halinde soruldu (duygu 80, sayısal 10 soru/çağrı) ve araç kullanımı yalnız prompt ile yasaklandı. Bu satırlar yerel modellerle birebir aynı koşulda değildir.</li>
+        <li>Görev başına 50–235 soru var; 2–3 puanlık farklar anlamlı olmayabilir.</li>
+        <li><span class="warn">Kesilme %</span> yüksekse model token sınırına takılmıştır; puan düşük kalabilir.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/{"generated":"","tasks":[],"rows":[],"pending":[]};
+const GL = {"frontier-cli": "frontier", "openrouter-free": "openrouter ücretsiz", "openrouter-paid": "openrouter", "uncensored": "sansürsüz", "baseline": "genel", "finance": "finans"};
+const state = { g: "all", q: "", sort: "overall", dir: -1 };
+try { const s = JSON.parse(localStorage.getItem("finlb") || "{}"); Object.assign(state, s); } catch (e) {}
+const save = () => { try { localStorage.setItem("finlb", JSON.stringify({ g: state.g, sort: state.sort, dir: state.dir })) } catch (e) {} };
+const fmt = v => v == null || Number.isNaN(v) ? "–" : v.toFixed(1);
+function heat(v) {
+  if (v == null) return "";
+  const t = Math.max(0, Math.min(1, (v - 20) / 75));
+  const [a, b, p] = t < .5 ? ["--heat-lo", "--heat-mid", t * 2] : ["--heat-mid", "--heat-hi", (t - .5) * 2];
+  return `background: color-mix(in srgb, var(${b}) ${Math.round(p * 100)}%, var(${a}))`;
+}
+const cols = [
+  { k: "rank", l: "#", cls: "rank", nosort: true },
+  { k: "model", l: "Model", cls: "l model" },
+  { k: "overall", l: "Genel" },
+  { k: "sentiment", l: "Duygu", blk: "ort." , sep: true },
+  ...DATA.tasks.filter(t => t.block === "sentiment").map(t => ({ k: t.key, l: t.label, heat: true })),
+  { k: "numeric", l: "Sayısal", blk: "ort.", sep: true },
+  ...DATA.tasks.filter(t => t.block === "numeric").map(t => ({ k: t.key, l: t.label, heat: true })),
+  { k: "tok_s", l: "tok/s", sep: true },
+  { k: "trunc", l: "Kesilme %" },
+];
+function head() {
+  document.querySelector("#t thead").innerHTML = "<tr>" + cols.map(c =>
+    `<th class="${c.cls && c.cls.includes("l") ? "l" : ""} ${state.sort === c.k ? "sorted" : ""} ${c.sep ? "sep" : ""}">${c.nosort ? c.l :
+      `<button data-k="${c.k}">${c.l}${state.sort === c.k ? (state.dir < 0 ? " ↓" : " ↑") : ""}</button>`}${c.blk ? `<span class="blk">${c.blk}</span>` : ""}</th>`).join("") + "</tr>";
+  document.querySelectorAll("#t thead button").forEach(b => b.onclick = () => {
+    const k = b.dataset.k; state.dir = state.sort === k ? -state.dir : (k === "model" ? 1 : -1); state.sort = k; save(); render();
+  });
+}
+function render() {
+  head();
+  let rows = DATA.rows.filter(r => (state.g === "all" || r.group === state.g) && r.model.toLowerCase().includes(state.q.toLowerCase()));
+  rows.sort((a, b) => {
+    const x = a[state.sort], y = b[state.sort];
+    if (typeof x === "string") return state.dir * x.localeCompare(y);
+    return state.dir * ((x ?? -1) - (y ?? -1));
+  });
+  document.querySelector("#t tbody").innerHTML = rows.map((r, i) => "<tr>" + cols.map(c => {
+    if (c.k === "rank") return `<td class="rank">${i + 1}</td>`;
+    if (c.k === "model") return `<td class="l model"><div class="mname">${r.model}</div><div class="meta"><span class="tag ${r.group}">${GL[r.group] || r.group}</span><span>${r.quant || ""}</span>${r.gb ? `<span>${r.gb} GB</span>` : ""}${r.complete ? "" : '<span class="warn">eksik</span>'}</div></td>`;
+    if (c.k === "overall") return `<td><div class="ov"><b>${fmt(r.overall)}</b><span class="meter"><i style="width:${r.overall || 0}%"></i></span></div></td>`;
+    if (c.k === "tok_s") return `<td class="sep dim">${r.tok_s == null ? "–" : r.tok_s.toFixed(0)}</td>`;
+    if (c.k === "trunc") return `<td class="${r.trunc >= 10 ? "warn" : "dim"}">${r.trunc == null ? "–" : r.trunc.toFixed(0)}</td>`;
+    const v = r[c.k];
+    return `<td class="${c.heat ? "h" : ""} ${c.sep ? "sep" : ""}" ${c.heat ? `style="${heat(v)}"` : ""} title="${c.heat && r[c.k + "_n"] ? "n=" + r[c.k + "_n"] : ""}">${c.heat ? fmt(v) : `<b>${fmt(v)}</b>`}</td>`;
+  }).join("") + "</tr>").join("");
+  document.getElementById("count").textContent = `${rows.length} model`;
+  document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.g === state.g)));
+}
+function summary() {
+  const best = g => DATA.rows.filter(r => r.group === g && r.overall != null).sort((a, b) => b.overall - a.overall)[0];
+  const local = DATA.rows.filter(r => (r.group === "baseline" || r.group === "finance" || r.group === "uncensored") && r.overall != null).sort((a, b) => b.overall - a.overall)[0];
+  const cards = [
+    ["En iyi frontier", best("frontier-cli")], ["En iyi yerel", local], ["En iyi finans ince ayarlı", best("finance")],
+  ];
+  const done = DATA.rows.filter(r => r.complete).length;
+  document.getElementById("summary").innerHTML = cards.map(([k, r]) => `<div class="card"><span class="k">${k}</span>${r ?
+    `<span class="v">${fmt(r.overall)}</span><span class="n">${r.model}</span>` : '<span class="n dim">henüz yok</span>'}</div>`).join("") +
+    `<div class="card"><span class="k">Tamamlanan</span><span class="v">${done}</span><span class="n dim">${DATA.pending.length} model sırada</span></div>`;
+}
+document.querySelectorAll(".chip").forEach(b => b.onclick = () => { state.g = b.dataset.g; save(); render(); });
+document.getElementById("q").oninput = e => { state.q = e.target.value; render(); };
+document.getElementById("stamp").textContent = `Güncellendi ${DATA.generated} · Tier-1 · 835 soru/model`;
+document.querySelector("#tasks tbody").innerHTML = DATA.tasks.map(t => `<tr><td><b>${t.label}</b><br><span class="dim">${t.desc}</span></td><td>${t.block === "sentiment" ? "Duygu" : "Sayısal"}</td><td>${t.n}</td><td>${t.metric}</td></tr>`).join("");
+document.getElementById("pending").innerHTML = DATA.pending.map(p => `<span>${p}</span>`).join("");
+document.getElementById("pendingbox").hidden = !DATA.pending.length;
+document.getElementById("foot").textContent = "Kaynak: finance-llm-bench · bench.py report ile yeniden üretilir";
+summary(); render();
+</script>
